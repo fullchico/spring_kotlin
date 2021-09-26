@@ -1,5 +1,8 @@
 package com.mercadolivro.controller.request
 
-class PutBookRequest {
+import java.math.BigDecimal
 
-}
+data class PutBookRequest(
+    var name: String?,
+    var price: BigDecimal?
+)

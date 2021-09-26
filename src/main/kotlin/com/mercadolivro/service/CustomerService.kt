@@ -1,45 +1,49 @@
 package com.mercadolivro.service
 
+import com.mercadolivro.enums.CustomerStatus
 import com.mercadolivro.model.CustomerModel
 import com.mercadolivro.reppsitory.CustomerRepository
 import org.springframework.stereotype.Service
 
 @Service
 class CustomerService(
-    val customerRespository: CustomerRepository
+    val customerRepository: CustomerRepository,
+    val bookService: BookService
 ) {
-
-
+    
+    
     fun getAll(name: String?): List<CustomerModel> {
         name?.let {
-            return customerRespository.findByNameContaining(name)
+            return customerRepository.findByNameContaining(name)
         }
-        return customerRespository.findAll().toList();
+        return customerRepository.findAll().toList();
     }
-
-
+    
+    
     fun create(customer: CustomerModel) {
-        customerRespository.save(customer)
+        customerRepository.save(customer)
     }
-
-
-    fun getCustomer(id: Int): CustomerModel {
-        return customerRespository.findById(id).orElseThrow()
+    
+    
+    fun findById(id: Int): CustomerModel {
+        return customerRepository.findById(id).orElseThrow()
     }
-
-
+    
+    
     fun update(customer: CustomerModel) {
-        if (!customerRespository.existsById(customer.id!!)) {
+        if (!customerRepository.existsById(customer.id!!)) {
             throw Exception()
         }
-        customerRespository.save(customer)
+        customerRepository.save(customer)
     }
-
-
+    
+    
     fun delete(id: Int) {
-        if (!customerRespository.existsById(id)) {
-            throw Exception()
-        }
-        customerRespository.deleteById(id)
+        val customer = findById(id)
+        bookService.deleteByCustomer(customer)
+        
+        customer.status = CustomerStatus.INATIVO
+        
+        customerRepository.save(customer)
     }
 }
