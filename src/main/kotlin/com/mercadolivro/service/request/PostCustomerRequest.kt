@@ -1,4 +1,4 @@
-package com.mercadolivro.controller.request
+package com.mercadolivro.service.request
 
 
 data class PostCustomerRequest(

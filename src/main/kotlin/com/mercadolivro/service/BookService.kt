@@ -1,16 +1,20 @@
 package com.mercadolivro.service
 
-import com.mercadolivro.enums.BookStatus
+import com.mercadolivro.exception.NotFoundException
+import com.mercadolivro.service.enums.BookStatus
 import com.mercadolivro.model.BookModel
 import com.mercadolivro.model.CustomerModel
 import com.mercadolivro.reppsitory.BookRepository
+import com.mercadolivro.reppsitory.CustomerRepository
+import com.mercadolivro.service.enums.Erros
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 @Service
 class BookService(
-    val bookRepository: BookRepository
+    val bookRepository: BookRepository,
+    val customerRepository: CustomerRepository
 ) {
     fun create(book: BookModel) {
         bookRepository.save(book)
@@ -21,18 +25,19 @@ class BookService(
     }
     
     fun findActives(pageable: Pageable): Page<BookModel> {
-        return bookRepository.findByStatus(BookStatus.ATIVO,pageable)
+        return bookRepository.findByStatus(BookStatus.ATIVO, pageable)
     }
     
     fun findById(id: Int): BookModel {
-        return bookRepository.findById(id).orElseThrow()
+        return bookRepository.findById(id).orElseThrow {
+            NotFoundException(Erros.ML101.message.format(id), Erros.ML101.code)
+        }
     }
     
     fun delete(id: Int) {
         if (!bookRepository.existsById(id)) {
-            throw Exception()
+            NotFoundException(Erros.ML101.message.format(id), Erros.ML101.code)
         }
-        
         val book = findById(id)
         book.status = BookStatus.CANCELADO
         update(book)
