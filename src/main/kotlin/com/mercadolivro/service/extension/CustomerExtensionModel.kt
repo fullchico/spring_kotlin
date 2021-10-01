@@ -1,7 +1,7 @@
 package com.mercadolivro.service.extension
 
 import com.mercadolivro.model.CustomerModel
-import com.mercadolivro.service.enums.CustomerStatus
+import com.mercadolivro.enums.CustomerStatus
 import com.mercadolivro.service.request.PostCustomerRequest
 import com.mercadolivro.service.request.PutCustomerRequest
 import com.mercadolivro.service.response.CustomerResponse

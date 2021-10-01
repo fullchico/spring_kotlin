@@ -2,7 +2,7 @@ package com.mercadolivro.service.extension
 import com.mercadolivro.service.request.PostBookRequest
 import com.mercadolivro.service.request.PutBookRequest
 import com.mercadolivro.service.response.BookResponse
-import com.mercadolivro.service.enums.BookStatus
+import com.mercadolivro.enums.BookStatus
 import com.mercadolivro.model.BookModel
 import com.mercadolivro.model.CustomerModel
 

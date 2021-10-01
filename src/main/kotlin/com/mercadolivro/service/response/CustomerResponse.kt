@@ -1,6 +1,6 @@
 package com.mercadolivro.service.response
 
-import com.mercadolivro.service.enums.CustomerStatus
+import com.mercadolivro.enums.CustomerStatus
 
 data class CustomerResponse(
     var id: Int? = null,

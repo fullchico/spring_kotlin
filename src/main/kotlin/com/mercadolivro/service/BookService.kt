@@ -1,12 +1,12 @@
 package com.mercadolivro.service
 
 import com.mercadolivro.exception.NotFoundException
-import com.mercadolivro.service.enums.BookStatus
+import com.mercadolivro.enums.BookStatus
 import com.mercadolivro.model.BookModel
 import com.mercadolivro.model.CustomerModel
-import com.mercadolivro.reppsitory.BookRepository
-import com.mercadolivro.reppsitory.CustomerRepository
-import com.mercadolivro.service.enums.Erros
+import com.mercadolivro.repository.BookRepository
+import com.mercadolivro.repository.CustomerRepository
+import com.mercadolivro.enums.Erros
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service

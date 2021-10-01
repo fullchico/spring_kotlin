@@ -1,10 +1,10 @@
 package com.mercadolivro.service
 
 import com.mercadolivro.exception.NotFoundException
-import com.mercadolivro.service.enums.CustomerStatus
+import com.mercadolivro.enums.CustomerStatus
 import com.mercadolivro.model.CustomerModel
-import com.mercadolivro.reppsitory.CustomerRepository
-import com.mercadolivro.service.enums.Erros
+import com.mercadolivro.repository.CustomerRepository
+import com.mercadolivro.enums.Erros
 import org.springframework.stereotype.Service
 
 @Service
@@ -55,5 +55,9 @@ class CustomerService(
         customer.status = CustomerStatus.INATIVO
         
         customerRepository.save(customer)
+    }
+    
+    fun emailAvailable(email:String):Boolean{
+        return !customerRepository.existsByEmail(email)
     }
 }

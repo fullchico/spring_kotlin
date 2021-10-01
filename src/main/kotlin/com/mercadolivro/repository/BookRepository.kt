@@ -1,6 +1,6 @@
-package com.mercadolivro.reppsitory
+package com.mercadolivro.repository
 
-import com.mercadolivro.service.enums.BookStatus
+import com.mercadolivro.enums.BookStatus
 import com.mercadolivro.model.BookModel
 import com.mercadolivro.model.CustomerModel
 import org.springframework.data.domain.Page

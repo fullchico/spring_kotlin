@@ -1,4 +1,4 @@
-package com.mercadolivro.service.execptionErros
+package com.mercadolivro.exception.execptionErros
 
 data class FieldErrorResponse(
     var message: String,
