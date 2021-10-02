@@ -1,4 +1,5 @@
 package com.mercadolivro.service.extension
+
 import com.mercadolivro.service.request.PostBookRequest
 import com.mercadolivro.service.request.PutBookRequest
 import com.mercadolivro.service.response.BookResponse
@@ -32,6 +33,7 @@ fun BookModel.toResponse(): BookResponse {
         id = this.id,
         name = this.name,
         price = this.price,
+        status = this.status!!,
         customer = this.customer
     )
 }

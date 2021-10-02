@@ -19,21 +19,21 @@ class BookService(
     fun create(book: BookModel) {
         bookRepository.save(book)
     }
-    
+
     fun findAll(pageable: Pageable): Page<BookModel> {
         return bookRepository.findAll(pageable)
     }
-    
+
     fun findActives(pageable: Pageable): Page<BookModel> {
         return bookRepository.findByStatus(BookStatus.ATIVO, pageable)
     }
-    
+
     fun findById(id: Int): BookModel {
         return bookRepository.findById(id).orElseThrow {
             NotFoundException(Erros.ML101.message.format(id), Erros.ML101.code)
         }
     }
-    
+
     fun delete(id: Int) {
         if (!bookRepository.existsById(id)) {
             NotFoundException(Erros.ML101.message.format(id), Erros.ML101.code)
@@ -42,15 +42,26 @@ class BookService(
         book.status = BookStatus.CANCELADO
         update(book)
     }
-    
+
     fun update(book: BookModel) {
         bookRepository.save(book)
     }
-    
+
     fun deleteByCustomer(customer: CustomerModel) {
         val books = bookRepository.findByCustomer(customer)
         for (book in books) {
             book.status = BookStatus.DELETADO
+        }
+        bookRepository.saveAll(books)
+    }
+
+    fun findAllByIds(bookIds: Set<Int>): List<BookModel> {
+        return bookRepository.findAllById(bookIds).toList()
+    }
+
+    fun purchase(books: MutableList<BookModel>) {
+        books.map {
+            it.status = BookStatus.VENDIDO
         }
         bookRepository.saveAll(books)
     }
