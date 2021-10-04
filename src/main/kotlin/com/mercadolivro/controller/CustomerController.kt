@@ -1,5 +1,7 @@
 package com.mercadolivro.controller
 
+import com.mercadolivro.model.BookModel
+import com.mercadolivro.service.BookService
 import com.mercadolivro.service.extension.toCustomeModel
 import com.mercadolivro.service.request.PostCustomerRequest
 import com.mercadolivro.service.request.PutCustomerRequest
@@ -16,40 +18,50 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("customers")
 class CustomerController(
-    val customerService: CustomerService
+    private val customerService: CustomerService,
+    private val bookService: BookService
 ) {
-    
+
     @GetMapping()
-    fun getAll(@RequestParam name: String?,
-               @PageableDefault(page = 0, size = 10) pageable: Pageable): Page<CustomerResponse> {
-        return customerService.getAll(name, pageable).map{
+    fun getAll(
+        @RequestParam name: String?,
+        @PageableDefault(page = 0, size = 10) pageable: Pageable
+    ): Page<CustomerResponse> {
+        return customerService.getAll(name, pageable).map {
             it.toResponse()
         }
     }
-    
+
+    @GetMapping("/{id}")
+    fun getCustomer(@PathVariable id: Int): CustomerResponse {
+        return customerService.findById(id).toResponse()
+    }
+
+    @GetMapping("/books/{id}")
+    fun getCustomerToMeBooks(
+        @PathVariable id: Int,
+        @PageableDefault(page = 0, size = 10) pageable: Pageable
+    ): Page<BookModel> {
+        return bookService.findAllBooksToCustomers(id, pageable)
+    }
+
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     fun create(@RequestBody @Valid customer: PostCustomerRequest) {
         customerService.create(customer.toCustomeModel())
     }
-    
-    @GetMapping("/{id}")
-    fun getCustomer(@PathVariable id: Int): CustomerResponse {
-        return customerService.findById(id).toResponse()
-    }
-    
-    
+
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun update(@PathVariable id: Int, @RequestBody customer: PutCustomerRequest) {
         val customerSaved = customerService.findById(id)
         customerService.update(customer.toCustomeModel(customerSaved))
     }
-    
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun delete(@PathVariable id: Int) {
         customerService.delete(id)
     }
-    
+
 }

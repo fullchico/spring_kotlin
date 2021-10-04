@@ -15,7 +15,13 @@ class PurchaseController(
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun purchase(@RequestBody request: PostPurchaseRequest) {
+    fun createPurchase(@RequestBody request: PostPurchaseRequest) {
         purchaseService.create(purchaseMapper.toModel(request))
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    fun listerAllPurchase(){
+
     }
 }

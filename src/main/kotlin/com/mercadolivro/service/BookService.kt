@@ -56,7 +56,9 @@ class BookService(
     }
 
     fun findAllByIds(bookIds: Set<Int>): List<BookModel> {
-        return bookRepository.findAllById(bookIds).toList()
+
+          return bookRepository.findAllById(bookIds).toList()
+
     }
 
     fun purchase(books: MutableList<BookModel>) {
@@ -64,5 +66,9 @@ class BookService(
             it.status = BookStatus.VENDIDO
         }
         bookRepository.saveAll(books)
+    }
+
+    fun findAllBooksToCustomers(id: Int, pageble: Pageable): Page<BookModel> {
+        return bookRepository.findBookModelByCustomer_Id(id, pageble)
     }
 }
