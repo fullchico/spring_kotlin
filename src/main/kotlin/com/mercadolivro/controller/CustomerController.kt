@@ -19,15 +19,14 @@ import javax.validation.Valid
 @RequestMapping("customers")
 class CustomerController(
     private val customerService: CustomerService,
-    private val bookService: BookService
+
 ) {
 
     @GetMapping()
     fun getAll(
         @RequestParam name: String?,
-        @PageableDefault(page = 0, size = 10) pageable: Pageable
-    ): Page<CustomerResponse> {
-        return customerService.getAll(name, pageable).map {
+    ): List<CustomerResponse> {
+        return customerService.getAll(name).map {
             it.toResponse()
         }
     }
@@ -35,14 +34,6 @@ class CustomerController(
     @GetMapping("/{id}")
     fun getCustomer(@PathVariable id: Int): CustomerResponse {
         return customerService.findById(id).toResponse()
-    }
-
-    @GetMapping("/books/{id}")
-    fun getCustomerToMeBooks(
-        @PathVariable id: Int,
-        @PageableDefault(page = 0, size = 10) pageable: Pageable
-    ): Page<BookModel> {
-        return bookService.findAllBooksToCustomers(id, pageable)
     }
 
     @PostMapping()

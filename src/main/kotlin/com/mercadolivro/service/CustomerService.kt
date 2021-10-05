@@ -5,27 +5,35 @@ import com.mercadolivro.enums.CustomerStatus
 import com.mercadolivro.model.CustomerModel
 import com.mercadolivro.repository.CustomerRepository
 import com.mercadolivro.enums.Erros
+import com.mercadolivro.enums.Profile
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.security.crypto.bcrypt.BCrypt
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 
 @Service
 class CustomerService(
-    val customerRepository: CustomerRepository,
-    val bookService: BookService
+    private val customerRepository: CustomerRepository,
+    private val bookService: BookService,
+    private val bCrypt: BCryptPasswordEncoder
 ) {
 
 
-    fun getAll(name: String?, pageble: Pageable): Page<CustomerModel> {
+    fun getAll(name: String?): List<CustomerModel> {
         name?.let {
-            return customerRepository.findByNameContaining(name, pageble)
+            return customerRepository.findByNameContaining(it)
         }
-        return customerRepository.findAll(pageble);
+        return customerRepository.findAll().toList()
     }
 
 
     fun create(customer: CustomerModel) {
-        customerRepository.save(customer)
+        val customerCopy = customer.copy(
+            roles = setOf(Profile.CUSTOMER),
+            password = bCrypt.encode(customer.password)
+        )
+        customerRepository.save(customerCopy)
     }
 
 
