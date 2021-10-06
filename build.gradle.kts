@@ -30,6 +30,8 @@ dependencies {
     implementation("io.springfox:springfox-swagger-ui:2.9.2")
     runtimeOnly("mysql:mysql-connector-java")
 
+    implementation("io.jsonwebtoken:jjwt:0.2")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 
     testImplementation ("io.mockk:mockk:1.12.0")

@@ -5,10 +5,7 @@ import com.mercadolivro.enums.CustomerStatus
 import com.mercadolivro.model.CustomerModel
 import com.mercadolivro.repository.CustomerRepository
 import com.mercadolivro.enums.Erros
-import com.mercadolivro.enums.Profile
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.Pageable
-import org.springframework.security.crypto.bcrypt.BCrypt
+import com.mercadolivro.enums.Role
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 
@@ -30,7 +27,7 @@ class CustomerService(
 
     fun create(customer: CustomerModel) {
         val customerCopy = customer.copy(
-            roles = setOf(Profile.CUSTOMER),
+            roles = setOf(Role.CUSTOMER),
             password = bCrypt.encode(customer.password)
         )
         customerRepository.save(customerCopy)
