@@ -18,7 +18,7 @@ class AuthenticationFilter(
     private val jwtUtil: JwtUtil
 ) : UsernamePasswordAuthenticationFilter(authenticationManager) {
     override fun attemptAuthentication(request: HttpServletRequest, response: HttpServletResponse?): Authentication {
-
+        
         try {
             val loginRequest = jacksonObjectMapper().readValue(request.inputStream, LoginRequest::class.java)
             val id = customerRepository.findByEmail(loginRequest.email)?.id
@@ -27,9 +27,9 @@ class AuthenticationFilter(
         } catch (ex: Exception) {
             throw AuthenticationException("Falha ao autenticar", "999")
         }
-
+        
     }
-
+    
     override fun successfulAuthentication(
         request: HttpServletRequest,
         response: HttpServletResponse,
@@ -38,6 +38,6 @@ class AuthenticationFilter(
     ) {
         val id = (authResult.principal as UserCustomDetails).id
         val token = jwtUtil.generateToken(id)
-        response.addHeader("Authorization", "$token")
+        response.addHeader("Authorization","Bearer $token")
     }
 }
