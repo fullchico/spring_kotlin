@@ -8,8 +8,11 @@ import javax.validation.constraints.NotEmpty
 data class PostCustomerRequest(
     @field: NotEmpty(message = "Nome não pode ser nulo")
     var name: String,
-    
+
     @field: Email(message = "E-mail deve ser valido")
     @EmailAvailble(message = "Email em uso")
     var email: String,
+
+    @field: NotEmpty(message = "Senha deve ser informada")
+    var password: String
 )
