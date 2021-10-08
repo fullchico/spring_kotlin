@@ -31,10 +31,9 @@ dependencies {
     runtimeOnly("mysql:mysql-connector-java")
 
     implementation("io.jsonwebtoken:jjwt:0.2")
-
+    
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-
-    testImplementation ("io.mockk:mockk:1.12.0")
+    testImplementation("io.mockk:mockk:1.12.0")
 }
 
 tasks.withType<KotlinCompile> {
