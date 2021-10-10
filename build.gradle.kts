@@ -6,6 +6,7 @@ plugins {
     kotlin("jvm") version "1.4.30"
     kotlin("plugin.spring") version "1.4.30"
     kotlin("plugin.jpa") version "1.4.30"
+    jacoco
 }
 
 group = "com.mercadolivro"
